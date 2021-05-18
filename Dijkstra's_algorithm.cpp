@@ -7,9 +7,10 @@ using namespace std;
 class graph{
     int E=0;//initially set number of edges as 0
     int V;
+    vector <vector<pair<int, float> > > adj;
     public:
     graph(int V=0):V(V){for(int i=0;i<V;i++){adj.push_back({make_pair(i,0)});}}//initiate a vector in the vector of vectors adj for each vertex
-    vector <vector<pair<int, float> > > adj;
+   
     
 //V (G): returns the number of vertices in the graph
     int no_of_V(){
@@ -128,7 +129,8 @@ void graph_generator(graph& G, float edge_density, pair<float, float>dist_range=
     
 //this class is the implementation of a priority queue whose only accessible element is the smallest element;    
 class PriorityQueue{
-     priority_queue < pair<float,int>, vector <pair<float,int>> , greater<pair<float,int>> > pq;
+    private:
+        priority_queue < pair<float,int>, vector <pair<float,int>> , greater<pair<float,int>> > pq;
     public:
    
     //minPriority(PQ): removes the top element of the queue.
@@ -159,12 +161,12 @@ class PriorityQueue{
   
 // actual implementation of Dijkstra's algorithm   
 class shortestPath{
+    private:
     graph G;
     int V;
+    
     public:
     shortestPath(graph G, int V):G(G),V(V){}
-    
-    
     //member function to return length of shortest path
     float path_size(int u, int w){
         PriorityQueue pq;
@@ -385,7 +387,6 @@ number of vertices- 50 number of edges- 426
 47->1(2.85)->2(4.01)->4(4.64)->5(2.8)->12(8.26)->13(4.25)->22(2.56)->32(2.76)->36(2.87)->43(4.23)->44(2.06)->10(2.54)->17(5.71)->18(2.75)->27(8.77)->28(9.64)->40(6.85)->41(5.36)
 48->13(9.48)->17(6.94)->26(2.67)->29(3.72)->31(5.38)->37(7.94)->46(4.57)->4(6)->18(1.88)->19(7.18)->35(3.86)->41(2.7)
 49->4(6.77)->12(5.28)->13(1.05)->15(2.15)->18(4.42)->21(2.03)->30(1.78)->33(4.33)->34(2.95)->37(5.33)->38(8.85)->44(9.33)->17(8.34)->22(7.77)->31(9.01)->35(7.32)->39(1.48)->41(8.82)->43(4.03)
-
 shortest path length from 0 to 0 is 0
 shortest path length from 0 to 1 is 4.44
 shortest path length from 0 to 2 is 1.85
@@ -486,9 +487,7 @@ The shortest path between vertex 0 and vertex 46 is : 0 2 30 46
 The shortest path between vertex 0 and vertex 47 is : 0 2 47 
 The shortest path between vertex 0 and vertex 48 is : 0 28 41 48 
 The shortest path between vertex 0 and vertex 49 is : 0 2 30 49 
-
 The average path length for the graph of edge density 20% is 4.
-
 GRAPH WITH EDGE DENSITY 40%
 number of vertices- 50 number of edges- 778
 0->2(1.85)->4(2.44)->7(5.98)->8(4.04)->9(8.49)->11(8.38)->14(5.46)->20(9.14)->24(6.53)->26(8.41)->30(3.78)->35(7.1)->37(5.58)->42(1.49)->47(6.8)->3(9.6)->10(8.45)->13(5.06)->17(3.75)->18(3.96)->19(7.04)->25(8.47)->27(6.01)->29(7.18)->33(8.22)->38(7.58)->40(5.66)->48(8.72)
@@ -541,7 +540,6 @@ number of vertices- 50 number of edges- 778
 47->0(6.8)->7(6.33)->8(9.57)->9(2.74)->10(9.49)->12(6.64)->13(3.37)->17(1.3)->19(1.96)->21(8.15)->24(2.18)->26(4.3)->27(2.67)->31(5.71)->32(6.4)->34(2.34)->36(9.36)->38(3.76)->39(5.18)->41(7.22)->43(7.37)->44(7.67)->46(7.47)->2(7.44)->4(7.61)->16(1.85)->25(2.83)->28(9.89)->29(2.6)->30(3.11)->45(5.9)->48(3.8)->49(9.53)
 48->3(7.79)->4(3.26)->5(6.19)->7(7.96)->10(1.08)->12(6.14)->13(6.85)->14(1.84)->16(1.07)->24(3.84)->25(1.55)->27(3.28)->32(5.93)->33(6.98)->38(6.19)->39(4.33)->40(5.64)->43(9.61)->44(9.51)->45(8.63)->0(8.72)->8(8.16)->15(3.38)->18(3.98)->21(4.3)->23(5.12)->28(2.95)->29(1.32)->30(9.06)->37(2.34)->47(3.8)->49(5.74)
 49->1(5.99)->2(2.85)->7(7.12)->9(9.83)->12(9.32)->17(8.79)->20(4.54)->21(2.19)->23(2.85)->25(1.15)->27(2.76)->32(9)->35(2.86)->39(1.46)->48(5.74)->3(5.59)->4(2.17)->10(2.45)->11(5.66)->15(7)->19(2.5)->28(8.35)->30(6.53)->34(5.51)->40(4.51)->46(4.24)->47(9.53)
-
 shortest path length from 0 to 0 is 0
 shortest path length from 0 to 1 is 4.34
 shortest path length from 0 to 2 is 1.85
@@ -642,7 +640,6 @@ The shortest path between vertex 0 and vertex 46 is : 0 2 46
 The shortest path between vertex 0 and vertex 47 is : 0 42 17 47 
 The shortest path between vertex 0 and vertex 48 is : 0 2 46 10 48 
 The shortest path between vertex 0 and vertex 49 is : 0 4 49 
-
 The average path length for the graph of edge density 40% is 4.
 */
 
