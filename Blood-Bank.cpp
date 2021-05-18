@@ -232,13 +232,13 @@ int main() {
 		cin >> menu;
 		switch (menu)
 		{
-		case 1:writefiledonor(dv, pv);
+		case 1:writefiledonor(dv, pv);          //adds details of a new donor 
 			break;
-		case 2:enter_patient_details(dv, pv);
+		case 2:enter_patient_details(dv, pv);   //adds details of a new patient, can check whether there is a donor with same blood group
 			break;
-		case 3:delete_patient_record(dv, pv);
+		case 3:delete_patient_record(dv, pv);   //deletes details of patient with a given id, if found. displays the details of all remaining patients
 			break;
-		case 4:delete_donor_record(dv, pv);
+		case 4:delete_donor_record(dv, pv);     //deletes details of donor with a given id, if found. displays the details of all remaining donors.
 			break;
 		case 5:exit(0);
 			break;
