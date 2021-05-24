@@ -6,6 +6,7 @@ Approach: Input string is taken, variable int x is appended to it.
           if this string has more than or equal to 5 0's in the beginning it implies that it is smaller than the target.
           
 Some Expected outputs: 
+                      
                       abc
                       Input is abc
                       x is 767150
