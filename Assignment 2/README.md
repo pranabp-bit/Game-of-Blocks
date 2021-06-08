@@ -1,5 +1,5 @@
 # SMART CONTRACT LOAN
-This contract extends the functionality of the MetaCoin contract ans acts as a loan deposit and settling contract.
+This contract extends the functionality of the MetaCoin contract and acts as a loan deposit and settling contract.
 - ## Constructor:
   When the contract is deployed from an address, the `Owner` of the contract is set as the address of the creator:   
     ```Owner=msg.sender;```
