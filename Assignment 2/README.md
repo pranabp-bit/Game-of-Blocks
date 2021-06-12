@@ -49,7 +49,21 @@ This contract extends the functionality of the MetaCoin contract and acts as a l
       
      The `loans` mapped to the input address is set to 0 only if the transaction is successful.
      > ```if(successful) loans[_lender]=0;```
+- ## getMaxAddress:
+    ### Visibility-*Public* 
+    This is an iterative implementation to get the address to which the Owner owes the most. Since a mapping cannot be iterated directly in solidity, an array `key` was maintained, which stored all the addresses which called the reqLoan function.\
+    The function iterates through the mapping `loans` with the help of `key` and stores the address of the maximum lender in a local variable `maxLoan`. 
     
+    
+    **Benefit:** After the maximum loan has been settled, it will return the address of the next maximum lender, and not the same address. \
+    **Drawback:** Execution gas cost is high.
+- ## getMaxAddress2:
+    ### Visibility-*Public*     
+    In this implementation, a variable `maxLoanAddress` has been used which updates the address of the maximum lender whenever `getLoan` function is called for an amount greater than the previous maximum. 
+    
+    
+    **Benefit:** Execution gas cost is low. \
+    **Drawback:** The maxLoanAddress is not updated to the next maximum after the settlement of the maximum loan.
     
  ***   
 ## A Walkthrough Example
@@ -64,3 +78,35 @@ This contract extends the functionality of the MetaCoin contract and acts as a l
   - Now, call the function **settleDues** from the same account, with input as `0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2`. Since 14123<100000, transaction will be successful.
   - To verify, that the transaction was successful, call **getOwnerBalance** function. It will return 85877. Also the **viewDues** function for input `0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2` will now return 0.
   - In the above example, It can be verified that if the `principal` in the **reqLoan** function is changed to 927914, and the rest of the steps are followed in the same manner, the **settleDues** function will return false, because the amount will be greater than `Owner`'s balance. 
+*** 
+  ### Comparison of getMaxAddress() and getMaxAddress2():
+  Following transactions were made after deploying the **Loan** contract from the address `0x5B38Da6a701c568545dCfcB03FcB875f56beddC4`: 
+   - call the function **reqLoan** from address `0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2` with decoded input	{
+	"uint256 principal": "12312",
+	"uint256 rate": "3",
+	"uint256 time": "2"
+} 
+   - call the function **reqLoan** from address `0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db` with decoded input	{
+	"uint256 principal": "55642",
+	"uint256 rate": "3",
+	"uint256 time": "2"
+} 
+   - call the function **reqLoan** from address `0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB` with decoded input	{
+	"uint256 principal": "85642",
+	"uint256 rate": "3",
+	"uint256 time": "2"
+} 
+   - call the function **reqLoan** from address `0x617F2E2fD72FD9D5503197092aC168c91465E7f2` with decoded input	{
+	"uint256 principal": "4442",
+	"uint256 rate": "3",
+	"uint256 time": "2"
+}   
+   - call to Loan.getMaxAddress \
+        > decoded output	{ "0": "address: 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB" } \
+        > **execution cost:**	*45296 gas*
+   - call to Loan.getMaxAddress2 \
+        >  decoded output	{ "0": "address: 0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB" } \
+        >  **execution cost:** *25618 gas*
+
+Hence, it can be seen that the iterative function has higher execution cost. So, the getMaxAddress2 function is more effiecient and it would be better to use the same, if the aim is to know the address to which the Owner owes/owed the most (All time highest (Because it won't be updated after settlement of dues.)).
+  
