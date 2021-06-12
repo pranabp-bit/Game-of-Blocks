@@ -34,8 +34,10 @@ contract MetaCoin {
 contract Loan is MetaCoin {
 // You can edit this contract as much as you want. A template is provided here and you can change the function names and implement anything else you want, but the basic tasks mentioned here should be accomplished.
     mapping (address => uint256) private loans;
-    address[] private key; 
-    address private maxLoanAddress;
+    
+    address[] private key;          // required by function getMaxAddress(), to iterate over mapping loans
+    address private maxLoanAddress; // required by function getMaxAddress2(), to store the address of the lender of maximum amount 
+    
     event Request(address indexed _from, uint256 P, uint R, uint T, uint256 amt);
     
     address private Owner;
@@ -80,10 +82,11 @@ contract Loan is MetaCoin {
         // A creditor uses this function to request the Owner to settle his loan, and the amount to settle is calculated using the inputs.
         // Add appropriate definition below to store the loan request of a contract in the loans mapping,
         // Also emit the Request event after succesfully adding to the mapping, and return true. Return false if adding to the mapping failed (maybe the user entered a float rate, there were overflows and toPay comes to be lesser than principle, etc.
-        key.push(msg.sender);
-        if(toPay>loans[maxLoanAddress]){
-            maxLoanAddress=msg.sender;
-        }
+        
+	key.push(msg.sender); 					       // maintaining array of addresses `key`, required for function getMaxAddress()
+	
+        if(toPay>loans[maxLoanAddress]) { maxLoanAddress=msg.sender; } // update of maxLoanAddress, required for function getMaxAddress2()
+	
         loans[msg.sender]+=toPay;
         emit Request(msg.sender, principal, rate, time, toPay);
         return true;
