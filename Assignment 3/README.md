@@ -69,5 +69,3 @@
     ### Visibility-*Public*
     This function can be called by any address any number of times. This would simply return the address of the `winningcandidate_`
     > `winnerName_ = candidates[winningcandidate()].name;`
-
-{"mode":"full","isActive":false}
